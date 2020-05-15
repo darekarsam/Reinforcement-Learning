@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 NO_OF_TRIALS = 10000
 EPS = 0.1
@@ -16,7 +17,7 @@ class Bandit:
          
     def update(self, currentReward):
         self.N += 1
-        self.pEstimate = (self.pEstimate + currentReward) / self.N
+        self.pEstimate = ((self.N - 1)*self.pEstimate + currentReward) / self.N#(self.pEstimate + currentReward) / self.N
 
 
 def experiment():
@@ -50,12 +51,19 @@ def experiment():
         # update distribution of bandit pulled 
         bandits[banditIndex].update(reward)
 
-    for i in bandits:
-        print(i.pEstimate)
+    for i, bandit in enumerate(bandits):
+        print('mean estimate of {}: {}'.format(i, bandit.pEstimate))
 
     print('No of times Explored: {}'.format(explored))
     print('No of times Exploited: {}'.format(exploited))
     print('No of times optimal selected: {}'.format(optimal))
+    
+    # plot the results
+    cumulative_rewards = np.cumsum(rewards)
+    win_rates = cumulative_rewards / (np.arange(NO_OF_TRIALS) + 1)
+    plt.plot(win_rates)
+    plt.plot(np.ones(NO_OF_TRIALS) * np.max(BANDIT_PROB))
+    plt.show()
 
 if __name__ == "__main__":
     experiment()
