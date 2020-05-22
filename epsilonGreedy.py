@@ -17,7 +17,7 @@ class Bandit:
          
     def update(self, currentReward):
         self.N += 1
-        self.pEstimate = ((self.N - 1)*self.pEstimate + currentReward) / self.N#(self.pEstimate + currentReward) / self.N
+        self.pEstimate = ((self.N - 1)*self.pEstimate + currentReward) / self.N #(self.pEstimate + currentReward) / self.N
 
 
 def experiment():
